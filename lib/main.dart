@@ -27,7 +27,7 @@ class _MyAppState extends State {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Theme',
+      title: 'Counter',
       theme: Theme ? ThemeData.dark() : ThemeData.light(),
       routes: {
         '/main': ((context) => MainScreen()),

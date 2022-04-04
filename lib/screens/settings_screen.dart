@@ -50,7 +50,12 @@ class _SettingsScreenState extends State {
                 setThemePref();
               });
             },
-            child: const Text('Change Theme'),
+            child: const Text(
+              'Change Theme',
+              style: TextStyle(color: Colors.black),
+            ),
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.purple[400])),
           ),
           const Padding(padding: EdgeInsets.all(20.0)),
         ],

@@ -28,9 +28,7 @@ class _MainScreenState extends State {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              // Navigator.pushNamed(context, '/settings');
-              print('Hello');
-              goToSettings();
+              Navigator.pushNamed(context, '/settings');
             },
             icon: const Icon(Icons.settings),
           )
@@ -113,9 +111,5 @@ class _MainScreenState extends State {
     } else {
       setState(() => countAll = pref.getInt('count')!);
     }
-  }
-
-  goToSettings() {
-    Navigator.pushNamed(context, '/settings');
   }
 }
