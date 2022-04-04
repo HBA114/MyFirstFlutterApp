@@ -1,4 +1,4 @@
-# kurulum_demo
+# First Flutter App Counter
 
 A new Flutter project.
 
