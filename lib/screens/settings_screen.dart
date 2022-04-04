@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:kurulum_demo/Widgets/change_theme_widget.dart';
+import 'package:kurulum_demo/ui/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
-  late bool Theme;
   late int countAll;
-  SettingsScreen(this.Theme, this.countAll);
+  SettingsScreen(this.countAll);
   @override
   State<StatefulWidget> createState() {
-    return _SettingsScreenState(Theme, countAll);
+    return _SettingsScreenState(countAll);
   }
 }
 
 class _SettingsScreenState extends State {
-  late bool Theme;
   late int countAll;
-  _SettingsScreenState(this.Theme, this.countAll);
+  _SettingsScreenState(this.countAll);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,12 +47,11 @@ class _SettingsScreenState extends State {
           ), // Space between Total count and settings buttons
           TextButton(
             onPressed: () {
-              setState(() {
-                setThemePref();
-              });
+              setState(() {});
             },
             child: const Text('Change Theme'),
           ),
+          ChangeThemeWidget(),
           const Padding(padding: EdgeInsets.all(20.0)),
         ],
       ),
@@ -64,10 +64,8 @@ class _SettingsScreenState extends State {
       sharedPreferences.setBool('darkTheme', true);
     } else if (sharedPreferences.getBool('darkTheme') == true) {
       sharedPreferences.setBool('darkTheme', false);
-      setState(() => Theme = false);
     } else {
       sharedPreferences.setBool('darkTheme', true);
-      setState(() => Theme = true);
     }
   }
 }
