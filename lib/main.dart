@@ -1,94 +1,198 @@
 import 'package:flutter/material.dart';
-import 'package:kurulum_demo/ui/context_extension.dart';
+import 'package:kurulum_demo/screens/main_screen.dart';
+import 'package:kurulum_demo/screens/settings_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+bool Theme = true;
+
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends State {
+  @override
+  void initState() {
+    setState(() {
+      getThemePref();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData.dark(),
-      home: const MyHomePage(title: 'My Second Flutter App'),
+      title: 'Theme',
+      theme: Theme ? ThemeData.dark() : ThemeData.light(),
+      routes: {
+        '/main': ((context) => MainScreen()),
+        '/settings': (((context) => SettingsScreen(Theme, countAll))),
+      },
+      initialRoute: '/main',
     );
   }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  void _resetCounter() {
-    setState(() {
-      _counter = 0;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Center(
-              child: Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headline2,
-              ),
-            ),
-          ),
-          Padding(
-              padding:
-                  EdgeInsets.symmetric(vertical: context.dynamicHeight(0.2))),
-          Expanded(
-            flex: 2,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 3,
-                  child: FloatingActionButton(
-                    onPressed: _resetCounter,
-                    child: const Text('Reset'),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: FloatingActionButton(
-                    onPressed: _incrementCounter,
-                    child: const Icon(Icons.add),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+  getThemePref() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    if (pref.getBool('darkTheme') == null) {
+      pref.setBool('darkTheme', true);
+      setState(() => Theme = true);
+    } else if (pref.getBool('darkTheme') == true) {
+      setState(() => Theme = true);
+    } else {
+      setState(() => Theme = false);
+    }
   }
 }
+
+
+// class MyApp extends StatelessWidget {
+//   // const MyApp({Key? key}) : super(key: key);
+
+//   // @override
+//   // Widget build(BuildContext context) {
+//   //   return ChangeNotifier();
+//   // }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter Demo',
+//       theme: ThemeData.dark(),
+//       routes: {
+//         '/main': ((context) => MainScreen()),
+//         '/settings': ((context) => SettingsScreen(countAll)),
+//       },
+//       initialRoute: '/main',
+//     );
+//   }
+// }
+
+// class MyHomePage extends StatefulWidget {
+//   const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+//   final String title;
+
+//   @override
+//   State<MyHomePage> createState() => _MyHomePageState();
+// }
+
+// int countAll = 0;
+
+// class _MyHomePageState extends State<MyHomePage> {
+//   int _counter = 0;
+
+//   @override
+//   void initState() {
+//     setState(() {
+//       getCountPref();
+//     });
+//   }
+
+//   void _incrementCounter() {
+//     setState(() {
+//       _counter++;
+//       countIntoPref(_counter);
+//     });
+//   }
+
+//   void _resetCounter() {
+//     setState(() {
+//       _counter = 0;
+//       // print(countAll);
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(widget.title),
+//         centerTitle: true,
+//         actions: <Widget>[
+//           IconButton(
+//               onPressed: () {
+//                 Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                         builder: (context) => SettingsScreen(countAll)));
+//               },
+//               icon: const Icon(Icons.settings)),
+//         ],
+//       ),
+//       body: Column(
+//         children: [
+//           Expanded(
+//             flex: 1,
+//             child: Center(
+//               child: Text(
+//                 '$_counter',
+//                 style: Theme.of(context).textTheme.headline2,
+//               ),
+//             ),
+//           ),
+//           Padding(
+//               padding:
+//                   EdgeInsets.symmetric(vertical: context.dynamicHeight(0.2))),
+//           Expanded(
+//             flex: 2,
+//             child: Row(
+//               children: <Widget>[
+//                 Expanded(
+//                   flex: 3,
+//                   child: FloatingActionButton(
+//                     onPressed: _resetCounter,
+//                     child: const Text('Reset'),
+//                   ),
+//                 ),
+//                 Expanded(
+//                   flex: 3,
+//                   child: FloatingActionButton(
+//                     onPressed: _incrementCounter,
+//                     child: const Icon(Icons.add),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   getSharedPref() async {
+//     SharedPreferences pref = await SharedPreferences.getInstance();
+//     return pref;
+//   }
+
+//   countIntoPref(int count) async {
+//     var pref = await SharedPreferences.getInstance();
+//     if (pref.getInt('count') == null) {
+//       pref.setInt('count', 0);
+//     } else {
+//       pref.setInt('count', pref.getInt('count')!.toInt() + 1);
+//     }
+//     getCountPref();
+//   }
+
+//   getCountPref() async {
+//     SharedPreferences pref = await SharedPreferences.getInstance();
+//     if (pref.getInt('count') == null) {
+//       setState(() => countAll = 0);
+//     } else {
+//       setState(() => countAll = pref.getInt('count')!);
+//     }
+//   }
+// }
+
+
+
+
 
 //return Scaffold(
 //   appBar: AppBar(
