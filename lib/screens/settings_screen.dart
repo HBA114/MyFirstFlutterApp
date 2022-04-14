@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kurulum_demo/Widgets/change_theme_widget.dart';
-import 'package:kurulum_demo/ui/theme_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:kurulum_demo/ui/themes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -45,17 +43,26 @@ class _SettingsScreenState extends State {
           const Expanded(
             child: Text(''),
           ), // Space between Total count and settings buttons
-          TextButton(
-            onPressed: () {
-              setState(() {});
-            },
-            child: const Text('Change Theme'),
-          ),
-          ChangeThemeWidget(),
+          // TextButton(
+          //   onPressed: () {
+          //     setState(() {});
+          //   },
+          //   child: const Text('Change Theme'),
+          // ),
+          ThemeButton(),
           const Padding(padding: EdgeInsets.all(20.0)),
         ],
       ),
     );
+  }
+
+  Widget ThemeButton() {
+    return IconButton(
+        onPressed: () {
+          currentTheme.toggleTheme();
+          // setThemePref();
+        },
+        icon: const Icon(Icons.sunny));
   }
 
   setThemePref() async {
