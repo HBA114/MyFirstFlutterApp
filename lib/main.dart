@@ -16,12 +16,10 @@ class CounterApp extends StatefulWidget {
 }
 
 class _CounterAppState extends State<CounterApp> {
-  late SharedPreferences preferences;
-  bool isThemeDark = true;
   @override
   // ignore: must_call_super
   void initState() {
-    getThemeSharedPref();
+    setTheme();
     currentTheme.addListener(() {
       setState(() {});
     });
@@ -29,13 +27,11 @@ class _CounterAppState extends State<CounterApp> {
 
   @override
   Widget build(BuildContext context) {
-    CustomTheme preferredTheme = CustomTheme.withPref(isThemeDark);
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Counter',
       theme: CustomTheme.lightTheme,
       darkTheme: CustomTheme.darkTheme,
-      themeMode: currentTheme.currentTheme,
-      // themeMode: preferredTheme.preferredTheme,
+      themeMode: currentTheme.preferredTheme,
       routes: {
         '/main': ((context) => MainScreen()),
         '/settings': ((context) => SettingsScreen(countAll)),
@@ -44,35 +40,10 @@ class _CounterAppState extends State<CounterApp> {
     );
   }
 
-  getThemeSharedPref() async {
-    preferences = await SharedPreferences.getInstance();
-    if (preferences.getBool('darkTheme') == null) {
-      preferences.setBool('darkTheme', true);
-      isThemeDark = true;
-    } else if (preferences.getBool('darkTheme') == true) {
-      // preferences.setBool('darkTheme', false);
-      print("false");
-      isThemeDark = false;
-    } else {
-      // preferences.setBool('darkTheme', true);
-      isThemeDark = true;
+  setTheme() async {
+    var x = await CustomTheme().getThemePref();
+    if (!x) {
+      currentTheme.toggleTheme();
     }
-    setState(() {});
-  }
-}
-
-class MyApp extends StatelessWidget {
-  // const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      routes: {
-        '/main': ((context) => MainScreen()),
-        '/settings': ((context) => SettingsScreen(countAll)),
-      },
-      initialRoute: '/main',
-    );
   }
 }

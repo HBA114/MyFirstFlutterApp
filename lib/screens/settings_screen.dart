@@ -56,23 +56,30 @@ class _SettingsScreenState extends State {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget ThemeButton() {
     return IconButton(
         onPressed: () {
           currentTheme.toggleTheme();
-          // setThemePref();
+          setThemePref();
         },
-        icon: const Icon(Icons.sunny));
+        icon: currentTheme.isDarkTheme
+            ? const Icon(Icons.sunny)
+            : const Icon(Icons.mode_night));
   }
 
   setThemePref() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (sharedPreferences.getBool('darkTheme') == null) {
+      print("null");
       sharedPreferences.setBool('darkTheme', true);
+      print('darkTheme = ' + sharedPreferences.getBool('darkTheme').toString());
     } else if (sharedPreferences.getBool('darkTheme') == true) {
       sharedPreferences.setBool('darkTheme', false);
+      print('darkTheme = ' + sharedPreferences.getBool('darkTheme').toString());
     } else {
       sharedPreferences.setBool('darkTheme', true);
+      print('darkTheme = ' + sharedPreferences.getBool('darkTheme').toString());
     }
   }
 }

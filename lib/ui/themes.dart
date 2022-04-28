@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 CustomTheme currentTheme = CustomTheme();
-// CustomTheme preferredTheme = CustomTheme.withPref();
 
 class CustomTheme with ChangeNotifier {
   bool isDarkTheme = true;
 
   CustomTheme();
-  CustomTheme.withPref(this.isDarkTheme);
+
+  // Yüklerken son kaydedilen tema ile başlat ve tema değişince kaydet.
 
   ThemeMode get currentTheme => isDarkTheme ? ThemeMode.dark : ThemeMode.light;
+  ThemeMode get preferredTheme {
+    // getThemePref();
+    return isDarkTheme ? ThemeMode.dark : ThemeMode.light;
+  }
 
   void toggleTheme() {
     isDarkTheme = !isDarkTheme;
@@ -25,26 +29,17 @@ class CustomTheme with ChangeNotifier {
     return ThemeData.dark();
   }
 
-  ThemeMode get preferredTheme {
-    // getThemePref();
-    return isDarkTheme ? ThemeMode.dark : ThemeMode.light;
+  Future<SharedPreferences> getSharedPreferences() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences;
   }
 
-  // setThemePref() async {
-  //   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  //   if (sharedPreferences.getBool('darkTheme') == null) {
-  //     sharedPreferences.setBool('darkTheme', true);
-  //     isDarkTheme = true;
-  //   } else if (sharedPreferences.getBool('darkTheme') == true) {
-  //     sharedPreferences.setBool('darkTheme', false);
-  //     isDarkTheme = false;
-  //   } else {
-  //     sharedPreferences.setBool('darkTheme', true);
-  //     isDarkTheme = true;
-  //   }
-  // }
-
-  // getSharedPref() async {
-  //   sharedPreferences = await SharedPreferences.getInstance();
-  // }
+  getThemePref() async {
+    SharedPreferences pref = await getSharedPreferences();
+    if (pref.getBool('darkTheme') == null) {
+      pref.setBool('darkTheme', true);
+    }
+    bool isDarkTheme = pref.getBool('darkTheme')!;
+    return isDarkTheme;
+  }
 }
