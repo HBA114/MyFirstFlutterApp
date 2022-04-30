@@ -3,9 +3,11 @@ import 'package:kurulum_demo/ui/context_extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {
+  // late final ValueNotifier<ThemeMode> notifier;
+  // MainScreen(this.notifier);
   @override
   State<StatefulWidget> createState() {
-    return _MainScreenState();
+    return _MainScreenState(/*notifier*/);
   }
 }
 
@@ -13,6 +15,8 @@ int _counter = 0;
 int countAll = 0;
 
 class _MainScreenState extends State {
+  // late final ValueNotifier<ThemeMode> notifier;
+  // _MainScreenState(this.notifier);
   @override
   void initState() {
     setState(() {
@@ -28,8 +32,6 @@ class _MainScreenState extends State {
         actions: <Widget>[
           IconButton(
             onPressed: () {
-              // Navigator.pushNamed(context, '/settings');
-              print('Hello');
               goToSettings();
             },
             icon: const Icon(Icons.settings),
@@ -92,7 +94,6 @@ class _MainScreenState extends State {
   void _resetCounter() {
     setState(() {
       _counter = 0;
-      // print(countAll);
     });
   }
 

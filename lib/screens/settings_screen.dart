@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:kurulum_demo/ui/themes.dart';
+import 'package:kurulum_demo/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   late int countAll;
-  SettingsScreen(this.countAll);
+  late final ValueNotifier<ThemeMode> notifier;
+  SettingsScreen(this.notifier, this.countAll);
   @override
   State<StatefulWidget> createState() {
-    return _SettingsScreenState(countAll);
+    return _SettingsScreenState(notifier, countAll);
   }
 }
 
 class _SettingsScreenState extends State {
   late int countAll;
-  _SettingsScreenState(this.countAll);
+  late final ValueNotifier<ThemeMode> notifier;
+  _SettingsScreenState(this.notifier, this.countAll);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,10 +62,14 @@ class _SettingsScreenState extends State {
   Widget ThemeButton() {
     return IconButton(
         onPressed: () {
-          currentTheme.toggleTheme();
+          setState(() {
+            notifier.value = notifier.value == ThemeMode.light
+                ? ThemeMode.dark
+                : ThemeMode.light;
+          });
           setThemePref();
         },
-        icon: currentTheme.isDarkTheme
+        icon: notifier.value == ThemeMode.dark
             ? const Icon(Icons.sunny)
             : const Icon(Icons.mode_night));
   }
@@ -71,15 +77,11 @@ class _SettingsScreenState extends State {
   setThemePref() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     if (sharedPreferences.getBool('darkTheme') == null) {
-      print("null");
       sharedPreferences.setBool('darkTheme', true);
-      print('darkTheme = ' + sharedPreferences.getBool('darkTheme').toString());
     } else if (sharedPreferences.getBool('darkTheme') == true) {
       sharedPreferences.setBool('darkTheme', false);
-      print('darkTheme = ' + sharedPreferences.getBool('darkTheme').toString());
     } else {
       sharedPreferences.setBool('darkTheme', true);
-      print('darkTheme = ' + sharedPreferences.getBool('darkTheme').toString());
     }
   }
 }
