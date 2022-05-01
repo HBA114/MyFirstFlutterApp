@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:kurulum_demo/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// ignore: must_be_immutable
 class SettingsScreen extends StatefulWidget {
   late int countAll;
   late final ValueNotifier<ThemeMode> notifier;
-  SettingsScreen(this.notifier, this.countAll);
+  SettingsScreen(this.notifier, this.countAll, {Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
+    // ignore: no_logic_in_create_state
     return _SettingsScreenState(notifier, countAll);
   }
 }
