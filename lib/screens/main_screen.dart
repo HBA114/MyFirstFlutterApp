@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kurulum_demo/ui/context_extension.dart';
+import 'package:Counter/ui/context_extension.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainScreen extends StatefulWidget {

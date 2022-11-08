@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kurulum_demo/screens/main_screen.dart';
-import 'package:kurulum_demo/screens/settings_screen.dart';
+import 'package:Counter/screens/main_screen.dart';
+import 'package:Counter/screens/settings_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
